@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>在线电子签名签章</title>
+<link href="jquery.zsign.css" rel="stylesheet" type="text/css" />
+<script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+<script src="js/jquery.zsign.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/jquerymyname.js" ></script>
+</head>
+<body>
+<input type="text" class="inp_name" placeholder="请输入签名内容"/>
+<input type="button" id="myna" value="确认" />
+<div class="sc">
+	<p>-----------以下是自动生成签名内容-------------</p>
+	<span id="html2canvas"></span>
+</div>
+<div id="test" style="width:700px;margin:40px auto; position:relative;">
+  <img src="images/timg.jpg" style="width: 100%;"/>
+</div>
+<script>
+$(function(){
+	$("#myna").on("click",function(){
+		var str_name=$(".inp_name").val();
+		if(str_name==0){
+			alert("请先输入你的姓名");
+		}else{
+		    $("#html2canvas").html(str_name);
+		    $(".inp_name").val("");
+		}
+		var str = $('#html2canvas');  
+//console.log(str);  
+	html2canvas([str.get(0)], {  
+	    onrendered: function (canvas) {  
+	        var image = canvas.toDataURL("image/png");
+	        console.log(image);
+//	        var pHtml = "<img src="+image+" />";  
+//	        $('#html2canvas').html(pHtml); 
+            $(".sc").find($(".panel.qm")).remove(); 
+	        $("#test").mySign({ img:image});
+	    }  
+      });
+	})
+	$("#test").zSign({ img: 'images/1.gif'});//印章
+})
+</script>
+</body>
+</html>
